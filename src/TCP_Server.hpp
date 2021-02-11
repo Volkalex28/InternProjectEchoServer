@@ -16,11 +16,11 @@
 
 #pragma once
 
+#include <cstdint>
 #include <string>
-#include <bits/exception.h>
+
 extern "C"
-{
-  #include <stdint.h> 
+{ 
   #include <unistd.h>
   #include <netdb.h> 
 }
