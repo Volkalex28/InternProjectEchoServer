@@ -48,7 +48,10 @@ int main(void)
 
     if(msg.compare(0, 4, "exit") == 0)
     {
-      if(msg[4] == '\n' || msg[4] == '\r' || msg[4] == '\0') { break; }      
+      if(msg[4] == '\n' || msg[4] == '\r' || msg[4] == '\0') 
+      { 
+        break; 
+      }      
     }
 
     tcp.Write(msg); 
