@@ -36,7 +36,11 @@ char const * TCP_Server::failure::what(void) const noexcept
 
 // ==================================== Server ================================
 
-TCP_Server::TCP_Server(const uint16_t port) : port(port), sockFD(-1), connFD(-1) { }
+TCP_Server::TCP_Server(const uint16_t port) 
+  : port(port), sockFD(-1), connFD(-1) 
+{ 
+
+}
 
 TCP_Server::~TCP_Server()
 {
@@ -113,10 +117,16 @@ string TCP_Server::Read(void) const
   {
     int n = read(this->connFD, (void *)buffer, sizeof(buffer)); 
 
-    if(n <= 0) { failure("Read operation failed", codeFail::READ); }
+    if(n <= 0) 
+    { 
+      failure("Read operation failed", codeFail::READ); 
+    }
     buffer[n] = '\0';
   }
-  catch( ... ) { failure("Read operation failed", codeFail::READ); }
+  catch( ... ) 
+  { 
+    failure("Read operation failed", codeFail::READ);
+  }
   
   return string(buffer);
 }
@@ -127,7 +137,13 @@ void TCP_Server::Write(const string & rMsg) const
   {
     int n = write(this->connFD, (const void *)rMsg.c_str(), (size_t)rMsg.length());
 
-    if(n == -1) { failure("Write operation failed", codeFail::WRITE); }
+    if(n == -1) 
+    { 
+      failure("Write operation failed", codeFail::WRITE);
+    }
   }
-  catch( ... ) { failure("Write operation failed", codeFail::WRITE); }
+  catch( ... ) 
+  {
+    failure("Write operation failed", codeFail::WRITE);
+  }
 }

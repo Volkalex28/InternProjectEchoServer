@@ -27,17 +27,45 @@ const uint16_t PORT = 3390;   ///< Port number on which the server will be creat
  * Create a TCP server, configure it, establish a client connection and
  * implement the server as an echo
  * 
+ * @param argc 
+ * @param argv
  * @return Program completion status
  * @retval 0 If the program finished successfully
  * @retval 1 If the program fails
  */ 
-int main(void)
+int main(int argc, char * argv[])
 {
-  TCP_Server tcp(PORT);
+  uint16_t port;
+
+  switch(argc)
+  {
+  case 1: 
+    port = PORT;
+    break;
+
+  case 2:
+    port = atoi(argv[1]);
+    if(port == 0)
+    {
+      std::cerr << "Invalid port number" << std::endl;
+      exit(EXIT_FAILURE);
+    }
+    break;
+
+  default:
+    std::cerr << "Invalid number of parameters" << std::endl;
+    exit(EXIT_FAILURE);
+    break;
+  }
+
+  TCP_Server tcp(port);
 
   try
   {
     tcp.Create();
+
+    std::cout << "Server created on port " << port << std::endl;
+
     tcp.Listen(1);
     tcp.Accept();
 
@@ -48,7 +76,10 @@ int main(void)
 
     if(msg.compare(0, 4, "exit") == 0)
     {
-      if(msg[4] == '\n' || msg[4] == '\r' || msg[4] == '\0') { break; }      
+      if(msg[4] == '\n' || msg[4] == '\r' || msg[4] == '\0') 
+      { 
+        break; 
+      }      
     }
 
     tcp.Write(msg); 
